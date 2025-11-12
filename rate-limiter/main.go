@@ -33,7 +33,10 @@ func main() {
 	// limiter := NewTokenBucket(5, 2) // capacity=5, refill rate=2 tokens/sec
 
 	// 2️⃣ Leaky Bucket (example params)
-	limiter := NewLeakyBucket(5, 1) // capacity=5, leak rate=1 req/sec
+	// limiter := NewLeakyBucket(5, 1) // capacity=5, leak rate=1 req/sec
+
+	// 3️⃣ Fixed Window (example params)
+	limiter := NewFixedWindow(5, 1*time.Second) // limit=5 requests per 1-second window
 
 	// Run simulation: 15 requests, 200ms apart
 	simulateRequests(limiter, 15, 200*time.Millisecond)
