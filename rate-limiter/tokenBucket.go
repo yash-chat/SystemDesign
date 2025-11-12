@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -54,16 +53,9 @@ func min(a, b float64) float64 {
 	return b
 }
 
-func main() {
-	// Example usage: 10 tokens max, refill 1 token per second
-	limiter := NewTokenBucket(10, 1)
-
-	for i := 0; i < 20; i++ {
-		if limiter.Allow() {
-			fmt.Printf("[%s] Request allowed ✅\n", time.Now().Format("15:04:05.000"))
-		} else {
-			fmt.Printf("[%s] Request denied ❌ (no tokens left)\n", time.Now().Format("15:04:05.000"))
-		}
-		time.Sleep(300 * time.Millisecond)
-	}
+// GetTokens returns the current number of tokens in the bucket
+func (tb *TokenBucket) GetTokens() float64 {
+	tb.mu.Lock()
+	defer tb.mu.Unlock()
+	return tb.tokens
 }
